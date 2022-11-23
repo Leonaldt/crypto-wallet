@@ -1,14 +1,10 @@
 import express from "express";
-import * as db from "./db/postgresql";
-
-db.connect();
+import { usersRoute } from "./routers/users";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send({ msg: "OK" });
-});
+app.use("/users", usersRoute);
 
 export = app;
