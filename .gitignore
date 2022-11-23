@@ -5,3 +5,4 @@ tmp
 .env.local
 .env
 .vscode
+infra/docker/data
