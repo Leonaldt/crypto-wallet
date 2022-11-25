@@ -35,18 +35,13 @@ const getUserById = async (id: number) => {
 
 const getUserByNickname = async (nickname: string) => {
   const pool = await connect();
-  const results = await pool.query("SELECT * FROM users WHERE nickname = $1", [
-    nickname,
-  ]);
+  const results = await pool.query("SELECT * FROM users WHERE nickname = $1", [nickname]);
   return results.rows[0];
 };
 
 const deleteUser = async (id: number) => {
   const pool = await connect();
-  await pool.query(
-    "DELETE FROM wallets WHERE user_id IN (SELECT id FROM users WHERE id = $1)",
-    [id]
-  );
+  await pool.query("DELETE FROM wallets WHERE user_id IN (SELECT id FROM users WHERE id = $1)", [id]);
   await pool.query("DELETE FROM users WHERE id = $1", [id]);
 };
 
