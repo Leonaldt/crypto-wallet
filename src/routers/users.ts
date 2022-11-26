@@ -48,8 +48,8 @@ router.put("/:id", async (req, res) => {
       return res.status(400).send({ message: "Nickname is requered" });
     }
 
-    const userUpdated = await dbUser.updateUser(user, id);
-    res.status(201).send(userUpdated);
+    await dbUser.updateUser(user, id);
+    res.status(204).send();
   } catch (error) {
     console.error(error);
     res.status(500).send();
@@ -94,7 +94,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     await dbUser.deleteUser(id);
-    res.status(201).send();
+    res.status(204).send();
   } catch (error) {
     console.error(error);
     res.status(500).send();

@@ -11,9 +11,8 @@ const createWallet = async (wallet: Wallet) => {
   return results.rows[0];
 };
 
-const updateWallet = async (wallet: Wallet, id: number) => {
+const updateWallet = async (name: string, id: number) => {
   const pool = await connect();
-  const { name } = wallet;
   await pool.query("UPDATE wallets SET name = $1 WHERE id = $2", [name, id]);
 };
 

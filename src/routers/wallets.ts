@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
-  const { name, userId } = req.body;
+  const { name } = req.body;
 
   try {
     const walletExists = await dbWallet.getWalletById(id);
@@ -49,20 +49,17 @@ router.put("/:id", async (req, res) => {
       return res.status(404).send({ message: "Wallet not found" });
     }
 
-    const name = await dbWallet.getWalletsByName(req.body.name);
-
-    if (name && walletExists.name !== req.body.name) {
-      return res.status(400).send({ message: "Name already exists" });
-    }
-
-    const wallet = new Wallet(name, userId);
-
-    if (!wallet.name) {
+    if (!name) {
       return res.status(400).send({ message: "Name is requered" });
     }
 
-    await dbWallet.updateWallet(wallet, id);
-    res.status(201).send();
+    const walletsByName = await dbWallet.getWalletsByName(name);
+    if (walletsByName && walletExists.name !== name) {
+      return res.status(400).send({ message: "Name already exists" });
+    }
+
+    await dbWallet.updateWallet(name, id);
+    res.status(204).send();
   } catch (error) {
     console.error(error);
     res.status(500).send();
